@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local Lens – Discover Local Events & Stories</title>
+  <style>
+    :root{
+      --primary:#2563eb;
+      --accent:#f97316;
+      --dark:#0f172a;
+      --light:#f8fafc;
+      --muted:#64748b;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Segoe UI,Roboto,Arial,sans-serif}
+    body{background:var(--light);color:var(--dark)}
+
+    header{
+      background:linear-gradient(135deg,var(--primary),#60a5fa);
+      color:white;padding:40px 20px
+    }
+    nav{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+    nav h1{font-size:28px}
+    nav ul{list-style:none;display:flex;gap:20px}
+    nav a{color:white;text-decoration:none;font-weight:500}
+
+    .hero{max-width:1100px;margin:40px auto 0;text-align:center}
+    .hero h2{font-size:40px;margin-bottom:10px}
+    .hero p{font-size:18px;color:#e5e7eb}
+
+    section{padding:60px 20px}
+    .container{max-width:1100px;margin:auto}
+
+    .section-title{text-align:center;margin-bottom:35px}
+    .section-title h3{font-size:32px}
+    .section-title p{color:var(--muted)}
+
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px}
+    .card{
+      background:white;border-radius:16px;padding:22px;
+      box-shadow:0 10px 25px rgba(0,0,0,.08)
+    }
+    .card h4{margin-bottom:8px}
+    .card p{color:var(--muted);font-size:14px}
+
+    .lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
+    .lens-item{
+      background:white;border-radius:16px;overflow:hidden;
+      box-shadow:0 10px 25px rgba(0,0,0,.08)
+    }
+    .lens-item img{width:100%;height:180px;object-fit:cover}
+    .lens-item .content{padding:18px}
+    .lens-item h4{margin-bottom:6px}
+    .lens-item p{font-size:14px;color:var(--muted);margin-bottom:10px}
+    .lens-item button{
+      background:var(--accent);border:none;color:white;
+      padding:8px 14px;border-radius:8px;cursor:pointer
+    }
+
+    .form-box{
+      max-width:500px;margin:auto;background:white;padding:30px;
+      border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,.08)
+    }
+    .form-box h4{text-align:center;margin-bottom:18px}
+    .form-group{margin-bottom:14px}
+    .form-group label{display:block;margin-bottom:6px;font-size:14px}
+    .form-group input,.form-group textarea{
+      width:100%;padding:10px;border-radius:8px;border:1px solid #cbd5f5
+    }
+
+    footer{background:var(--dark);color:#cbd5f5;padding:25px 20px}
+    footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+    @media(max-width:768px){
+      nav ul{display:none}
+      .hero h2{font-size:32px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <h1>Local Lens</h1>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#lens">Local Lens</a></li>
+      <li><a href="#submit">Submit</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <h2>See Your City Through a Local Lens</h2>
+    <p>Discover local stories, events, culture and hidden gems around you</p>
+  </div>
+</header>
+
+<section id="about">
+  <div class="container">
+    <div class="section-title">
+      <h3>What is Local Lens?</h3>
+      <p>A platform to highlight local perspectives and community stories</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h4>Local Events</h4>
+        <p>Explore festivals, workshops and gatherings happening near you.</p>
+      </div>
+      <div class="card">
+        <h4>Community Stories</h4>
+        <p>Read inspiring stories shared by people from your locality.</p>
+      </div>
+      <div class="card">
+        <h4>Hidden Places</h4>
+        <p>Discover lesser-known places and cultural spots in your city.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="lens" style="background:#eff6ff">
+  <div class="container">
+    <div class="section-title">
+      <h3>Local Lens Feed</h3>
+      <p>Latest updates from the community</p>
+    </div>
+    <div class="lens-grid" id="lensFeed"></div>
+  </div>
+</section>
+
+<section id="submit">
+  <div class="container">
+    <div class="section-title">
+      <h3>Share Your Story</h3>
+      <p>Contribute to the Local Lens community</p>
+    </div>
+    <div class="form-box">
+      <h4>Submit Content</h4>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="title" />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea rows="4" id="desc"></textarea>
+      </div>
+      <button onclick="submitStory()" style="background:var(--primary);color:white;border:none;padding:10px 18px;border-radius:8px;cursor:pointer">Submit</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Local Lens</p>
+    <p>Academic Demo Project</p>
+  </div>
+</footer>
+
+<script>
+  const feed = [
+    {
+      title: "Village Cultural Festival",
+      desc: "A vibrant festival showcasing traditional music and dance.",
+      img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+    },
+    {
+      title: "Street Food Walk",
+      desc: "Exploring authentic street food loved by locals.",
+      img: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9"
+    },
+    {
+      title: "Historic Temple Visit",
+      desc: "A peaceful place with rich cultural heritage.",
+      img: "https://images.unsplash.com/photo-1548013146-72479768bada"
+    }
+  ];
+
+  const lensFeed = document.getElementById('lensFeed');
+  feed.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'lens-item';
+    div.innerHTML = `
+      <img src="${item.img}" />
+      <div class="content">
+        <h4>${item.title}</h4>
+        <p>${item.desc}</p>
+        <button onclick="alert('Thanks for exploring!')">View</button>
+      </div>`;
+    lensFeed.appendChild(div);
+  });
+
+  function submitStory(){
+    const title = document.getElementById('title').value;
+    if(!title){
+      alert('Please enter a title');
+      return;
+    }
+    alert('Your story has been submitted for review!');
+  }
+</script>
+
+</body>
+</html>
